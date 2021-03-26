@@ -1,0 +1,31 @@
+#!/bin/sh
+
+PROG=$(basename $0)
+
+usage () {
+cat <<EOF
+USAGE:
+        $PROG -l            : list tags starting MYENV_
+        $PROG -r <name>     : echo any unique director with tag MYENV_<name>
+EOF
+}
+
+case $1. in
+    .|-h.|--h.)
+        usage
+        ;;
+    -l.)
+        for tag in $(mydts tags -a | grep ^MYENV); do
+            for dir in $(mydts dirs -t $tag); do
+                echo $tag $dir
+            done
+        done
+        ;;
+    -r.)
+        echo $(mydts dirs -t MYENV_$2  2>/dev/null | borg-uniq -t 2>/dev/null)
+        ;; 
+    *)
+        usage
+        ;;
+esac
+
